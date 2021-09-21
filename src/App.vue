@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-quagga :onDetected="logIt" :readerSize="readerSize" :readerTypes="['ean_reader']"></v-quagga>
+    <button @click="openReader">Start scanning</button>
+    <v-quagga v-if="isOpen" :onDetected="logIt" :readerSize="readerSize" :readerTypes="['ean_reader']"></v-quagga>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ export default {
   name: 'VueBarcodeTest',
   data () {
     return {
+      isOpen: false,
       readerSize: {
         width: 640,
         height: 480
@@ -23,8 +25,13 @@ export default {
     }
   },
   methods: {
+    openReader: function() {
+        this.isOpen = true;
+    },
     logIt (data) {
-      console.log('detected', data)
+        console.log('EAN Code : ', data.codeResult.code);
+        alert('EAN Code : ' + data.codeResult.code);
+        this.isOpen = false;
     }
 
   }
