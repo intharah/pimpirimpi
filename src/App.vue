@@ -3,10 +3,10 @@
     <button @click="openReader">Start scanning</button>
     <v-quagga v-if="isOpen" :onDetected="logIt" :readerSize="{width:320,height:240}" :readerTypes="['ean_reader']"></v-quagga>
     <div  v-if="isShown">
+        <div><img id="prod-img" src=""/></div>
         <div id="ean-code"><pre>EAN Code : </pre><b>{{ bcEANCode }}</b></div>
         <div id="eco-grade"><pre>Eco Grade</pre><b>{{ bcEcoGrade }}</b></div>
-        <div id="agri-code"><pre>Agribalyse Code : </pre><b>{{ bcAgri }}</b></div>
-        <div id="pef-level"><pre>PEF Level for packaging : </pre><b>{{ bcPefLevel }} %</b></div>
+        <div id="pef-level"><pre>CO² emissions | packaging : </pre><b>{{ bcPefLevel }} kg</b></div>
     </div>
   </div>
 </template>
@@ -27,8 +27,8 @@ export default {
       isShown: false,
 
       // Product data
+      bcImgSrc: '',
       bcEANCode: '',
-      bcAgri: '',
       bcEcoPack: '',
       bcEcoGrade: '',
       bcPefLevel: ''
@@ -38,6 +38,13 @@ export default {
     openReader: function() {
         this.isShown = false;
         this.isOpen = true;
+
+        // Reset data fields
+        this.bcImgSrc = '';
+        this.bcEANCode = '';
+        this.bcEcoPack = '';
+        this.bcEcoGrade = '';
+        this.bcPefLevel = '';
     },
     logIt (data) {
         console.log('EAN Code : ', data.codeResult.code);
@@ -49,27 +56,28 @@ export default {
             this.isOver = true
             this.isShown = true
 
-            //send data
+            //Get data
+            this.bcImgSrc = response.data.product.image_front_url
             this.bcEANCode = response.data.code
             this.bcEcoGrade = response.data.product.ecoscore_grade
-            this.bcAgri = response.data.product.ecoscore_data.agribalyse.agribalyse_food_code
 
             this.bcEcoPack = response.data.product.ecoscore_data.agribalyse.co2_packaging
             this.bcPefLevel = this.bcEcoPack * 100
         })
         .catch(error => console.log(error))
 
+        document.getElementById("prod-img").src = this.bcImgSrc;
+
         this.isOpen = false;
     }
-
   }
 }
 </script>
 
 <style>
     #interactive video, canvas {
-        width: 320px;
-        height: 240px;
+        width: 100%;
+        height: auto;
     }
 
     #eco-grade{
