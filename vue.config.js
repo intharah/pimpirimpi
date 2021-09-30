@@ -5,5 +5,6 @@ module.exports = {
         //port: 8080, // CHANGE YOUR PORT HERE!
         https: false,
         hotOnly: false,
+        disableHostCheck: true
     },
 }
