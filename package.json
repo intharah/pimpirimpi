@@ -24,6 +24,7 @@
     "sequelize": "^6.6.5",
     "style-loader": "^3.2.1",
     "vue": "^2.6.11",
+    "@vue/cli-service": "~4.0.0",
     "vue-qrcode-component": "^2.1.1",
     "vue-quaggajs": "^1.0.12",
     "vue-router": "^3.5.2",
