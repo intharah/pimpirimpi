@@ -1,4 +1,4 @@
-# cardbird
+# Pimpirimpi
 
 ## Project setup
 ```
