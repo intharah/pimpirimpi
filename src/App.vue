@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <button @click="openReader">Start scanning</button>
-    <v-quagga v-if="isOpen" :onDetected="logIt" :readerSize="{width:320,height:240}" :readerTypes="['ean_reader']"></v-quagga>
+  <div id="main">
+    <button @click="openReader">Scan a code</button>
+    <modal name="modalScan">
+      <v-quagga v-if="isOpen" :onDetected="logIt" :readerSize="{width:320,height:240}" :readerTypes="['ean_reader']"></v-quagga>
+    </modal>
     <div  v-if="isShown">
         <div><img id="prod-img" src=""/></div>
         <div id="ean-code"><pre>EAN Code : </pre><b>{{ bcEANCode }}</b></div>
@@ -15,9 +17,11 @@
 import Vue from 'vue'
 import VueQuagga from 'vue-quaggajs'
 import axios from 'axios'
+import vmodal from 'vue-js-modal'
 
-// register component 'v-quagga'
+// register components
 Vue.use(VueQuagga)
+Vue.use(vmodal)
 
 export default {
   name: 'VueBarcodeTest',
@@ -45,6 +49,8 @@ export default {
         this.bcEcoPack = '';
         this.bcEcoGrade = '';
         this.bcPefLevel = '';
+
+        this.$modal.show('modalScan');
     },
     logIt (data) {
         console.log('EAN Code : ', data.codeResult.code);
