@@ -5,6 +5,6 @@ module.exports = {
         port: 8080, // CHANGE YOUR PORT HERE! DISABLE FOR HEROKU
         https: true,
         hotOnly: false,
-        disableHostCheck: false // Option used to fix Invalid host header for deployment in Heroku
+        disableHostCheck: true // Option used to fix Invalid host header for deployment in Heroku
     },
 }
